@@ -6,7 +6,7 @@ plugins {
     alias(libs.plugins.kotlinAndroid)
     id("kotlin-kapt")
 }
-val apiKey: String = gradleLocalProperties(rootDir).getProperty("apiKey")
+val apiKey: String = gradleLocalProperties(rootDir).getProperty("API_KEY")
 
 android {
     namespace = "com.qamar.data"
@@ -26,10 +26,10 @@ android {
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
             )
-            buildConfigField("String", "apiKey", "\"$apiKey\"")
+            buildConfigField("String", "API_KEY", "\"$apiKey\"")
         }
         debug {
-            buildConfigField("String", "apiKey", "\"$apiKey\"")
+            buildConfigField("String", "API_KEY", "\"$apiKey\"")
         }
     }
     compileOptions {

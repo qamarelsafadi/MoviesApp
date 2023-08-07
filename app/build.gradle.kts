@@ -8,7 +8,7 @@ plugins {
     id("dagger.hilt.android.plugin")
 }
 
-val baseUrl: String = gradleLocalProperties(rootDir).getProperty("baseUrl")
+val baseUrl: String = gradleLocalProperties(rootDir).getProperty("BASE_URL")
 
 android {
     namespace = "com.qamar.moviesapp"
@@ -34,10 +34,10 @@ android {
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
             )
-            buildConfigField("String", "baseUrl", "\"$baseUrl\"")
+            buildConfigField("String", "BASE_URL", "\"$baseUrl\"")
         }
         debug {
-            buildConfigField("String", "baseUrl", "\"$baseUrl\"")
+            buildConfigField("String", "BASE_URL", "\"$baseUrl\"")
         }
     }
     compileOptions {
@@ -73,17 +73,20 @@ dependencies {
     implementation(libs.androidx.navigation.compose)
     implementation(libs.material3)
     implementation(libs.androidx.hilt.navigation.compose)
-    kapt(libs.hilt.android.compiler)
     implementation(libs.retrofit)
     implementation(libs.converter.gson)
     implementation(libs.logging.interceptor)
-    implementation(project(":domain"))
-    implementation(project(":data"))
     implementation(libs.hilt.android)
     implementation(libs.kotlinx.collections.immutable)
     implementation(libs.androidx.room.ktx)
+    implementation(libs.androidx.lifecycle.runtime.compose)
+    implementation(libs.coil.compose)
+    implementation(libs.lottie.compose)
+    implementation(project(":domain"))
+    implementation(project(":data"))
     kapt (libs.compiler)
     kapt(libs.androidx.room.compiler)
+    kapt(libs.hilt.android.compiler)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.test.ext.junit)
     androidTestImplementation(libs.espresso.core)

@@ -18,7 +18,7 @@ class HeaderInterceptor @Inject constructor(
                 .addHeader("Content-Type", "application/json")
                 .addHeader("Accept", "application/json")
                 .header("device_type", "android")
-                .header("Authorization", BuildConfig.apiKey)
+                .header("Authorization", BuildConfig.API_KEY)
                 .build()
 
         } catch (e: Exception) {

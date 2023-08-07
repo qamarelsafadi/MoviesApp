@@ -10,7 +10,7 @@ data class MovieEntity(
     @PrimaryKey
     val id: Int = 0,
     val overview: String = "",
-    val posterPath: String = "",
+    val posterImage: String = "",
     val releaseDate: String = "",
     val title: String = "",
 )

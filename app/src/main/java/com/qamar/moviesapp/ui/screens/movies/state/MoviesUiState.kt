@@ -13,8 +13,6 @@ import kotlinx.collections.immutable.persistentListOf
 
 sealed interface MoviesUiState {
     object Loading : MoviesUiState
-    object IDLE : MoviesUiState
-
     data class Success(
         val movies: ImmutableList<Movie>? = persistentListOf(),
         val movie: Movie? = null,
