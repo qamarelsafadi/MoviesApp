@@ -1,7 +1,8 @@
-package com.qamar.data.util
+package com.qamar.data.mapper
 
-import com.qamar.data.datasoruce.local.entity.MovieEntity
-import com.qamar.data.datasoruce.remote.model.MovieModel
+import com.qamar.data.local.entity.MovieEntity
+import com.qamar.data.remote.model.MovieModel
+import com.qamar.data.remote.model.MovieResponse
 import com.qamar.domain.models.Movie
 
 fun List<MovieModel>.mapToEntity(): List<MovieEntity> {
@@ -32,11 +33,12 @@ fun MovieModel.mapToUiModel(): Movie {
     return Movie(
         this.id,
         this.overview,
-        this.posterPath,
+        this.image,
         this.releaseDate,
         this.title
     )
 }
+
 fun MovieEntity.mapEntityToUiModel(): Movie {
     return Movie(
         this.id,
@@ -44,5 +46,33 @@ fun MovieEntity.mapEntityToUiModel(): Movie {
         this.posterImage,
         this.releaseDate,
         this.title
+    )
+}
+
+fun Movie.mapToEntity(): MovieEntity {
+    return MovieEntity(
+        this.id,
+        this.overview,
+        this.posterPath,
+        this.releaseDate,
+        this.title
+    )
+}
+
+fun MovieResponse.mapToDomainResponse(): com.qamar.domain.models.MovieResponse {
+    return com.qamar.domain.models.MovieResponse(
+        page = this.page,
+        movies = this.movies.map {
+            Movie(
+                it.id,
+                it.overview,
+                it.posterPath,
+                it.releaseDate,
+                it.title
+            )
+        },
+        totalPages = this.totalPages,
+        totalResults = this.totalResults
+
     )
 }

@@ -1,4 +1,4 @@
-package com.qamar.data.datasoruce.local.entity
+package com.qamar.data.local.entity
 
 import androidx.annotation.Keep
 import androidx.room.Entity

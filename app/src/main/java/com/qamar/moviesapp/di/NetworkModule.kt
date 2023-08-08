@@ -1,6 +1,6 @@
 package com.qamar.moviesapp.di
 
-import com.qamar.data.datasoruce.remote.MoviesApiService
+import com.qamar.data.remote.service.MoviesApiService
 import com.qamar.moviesapp.BuildConfig
 import com.qamar.moviesapp.util.HeaderInterceptor
 import dagger.Module

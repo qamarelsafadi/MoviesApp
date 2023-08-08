@@ -1,4 +1,4 @@
-package com.qamar.data.datasoruce.remote.model
+package com.qamar.data.remote.model
 
 import androidx.annotation.Keep
 import com.google.gson.annotations.SerializedName

@@ -35,8 +35,9 @@ fun DetailsScreen(
 
     val viewState: MoviesUiState by viewModel.uiState.collectAsStateWithLifecycle()
     val context = LocalContext.current
+
     /**
-     * get movies from viewModel
+     * get movie details from viewModel
      */
 
     LaunchedEffect(Unit) {
@@ -52,12 +53,10 @@ fun DetailsScreen(
         is MoviesUiState.Success -> {
             state.movie?.let { DetailsContent(it) }
         }
-
         is MoviesUiState.Failed -> {
             Toast.makeText(context, state.message, Toast.LENGTH_LONG).show()
         }
     }
-
 }
 
 @Composable
@@ -90,9 +89,7 @@ fun DetailsContent(movie: Movie) {
                 color = Color.Black
             )
         }
-
     }
-
 }
 
 @Composable

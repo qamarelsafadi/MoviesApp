@@ -4,10 +4,14 @@ import android.widget.Toast
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -28,10 +32,26 @@ fun MoviesScreen(
 
     val viewState: MoviesUiState by viewModel.uiState.collectAsStateWithLifecycle()
     val context = LocalContext.current
+    val lazyColumnListState = rememberLazyListState()
+
+    // check if can paginate
+    val isScrollToEnd by remember {
+        derivedStateOf {
+            lazyColumnListState.layoutInfo.visibleItemsInfo.lastOrNull()?.index == lazyColumnListState.layoutInfo.totalItemsCount - 1
+                    && viewModel.canPaginate
+        }
+    }
 
     /**
      * get movies from viewModel
      */
+
+    // listen if pagination allowed
+    LaunchedEffect(key1 = isScrollToEnd) {
+        if (isScrollToEnd) {
+            viewModel.getMovies()
+        }
+    }
 
     LaunchedEffect(Unit) {
         viewModel.getMovies()
@@ -45,6 +65,7 @@ fun MoviesScreen(
         is MoviesUiState.Loading -> LoadingView()
         is MoviesUiState.Success -> {
             HomeContent(
+                state = lazyColumnListState,
                 movies = state.movies ?: persistentListOf(),
                 onMovieClick = goToDetails
             )
@@ -59,12 +80,17 @@ fun MoviesScreen(
 
 @Composable
 fun HomeContent(
+    state: LazyListState,
     movies: ImmutableList<Movie>,
     onMovieClick: (Int) -> Unit
 ) {
-    LazyColumn(contentPadding = PaddingValues(16.dp),
-        verticalArrangement = Arrangement.spacedBy(15.dp)) {
-        items(movies) { movie ->
+    LazyColumn(
+        contentPadding = PaddingValues(16.dp),
+        verticalArrangement = Arrangement.spacedBy(15.dp),
+        state = state
+    ) {
+        items(movies,
+            key = { it.id }) { movie ->
             MovieCard(movie, onMovieClick)
         }
     }

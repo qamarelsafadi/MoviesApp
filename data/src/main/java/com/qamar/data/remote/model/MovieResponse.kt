@@ -1,4 +1,4 @@
-package com.qamar.data.datasoruce.remote.model
+package com.qamar.data.remote.model
 
 
 import androidx.annotation.Keep
@@ -13,4 +13,5 @@ data class MovieResponse(
     val totalPages: Int = 0,
     @SerializedName("total_results")
     val totalResults: Int = 0
-)
+){
+}

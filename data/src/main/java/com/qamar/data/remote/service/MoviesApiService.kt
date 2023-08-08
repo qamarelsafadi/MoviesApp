@@ -1,7 +1,7 @@
-package com.qamar.data.datasoruce.remote
+package com.qamar.data.remote.service
 
-import com.qamar.data.datasoruce.remote.model.MovieModel
-import com.qamar.data.datasoruce.remote.model.MovieResponse
+import com.qamar.data.remote.model.MovieModel
+import com.qamar.data.remote.model.MovieResponse
 import retrofit2.Response
 import retrofit2.http.GET
 import retrofit2.http.Path
@@ -9,7 +9,9 @@ import retrofit2.http.Query
 
 interface MoviesApiService {
     @GET("discover/movie")
-    suspend fun getMovies(): Response<MovieResponse>
+    suspend fun getMovies(
+        @Query("page") page: Int = 1
+    ): Response<MovieResponse>
 
     @GET("movie/{movie_id}")
     suspend fun getMovieDetails(
