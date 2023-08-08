@@ -36,47 +36,52 @@ class MoviesViewModel @Inject constructor(
 
     fun getMovies() {
         viewModelScope.launch {
-            val uiState = when (val response = useCase.getMovies(
+            useCase.getMovies(
                 page.value
-            )) {
-                is Resource.Success -> {
-                    val data = response.data
-                    canPaginate = page.value < (data?.totalPages ?: 1)
-                    if (canPaginate)
-                        page.value++
-                    MoviesUiState.Success(
-                        movies =  response.data?.movies?.toImmutableList()
-                    )
-                }
+            ).collect { response ->
+                val uiState = when (response) {
+                    is Resource.Success -> {
+                        val data = response.data
+                        canPaginate = page.value < (data?.totalPages ?: 1)
+                        if (canPaginate)
+                            page.value++
+                        MoviesUiState.Success(
+                            movies = response.data?.movies?.toImmutableList()
+                        )
+                    }
 
-                is Resource.Error ->
-                    MoviesUiState.Failed(
-                        response.message ?: ""
-                    )
+                    is Resource.Error ->
+                        MoviesUiState.Failed(
+                            response.message ?: ""
+                        )
+                }
+                _uiState.update {
+                    uiState
+                }
             }
-            _uiState.update {
-                uiState
-            }
+
         }
     }
 
     fun getMoviesDetails(id: Int) {
         viewModelScope.launch {
-            val uiState = when (val response = useCase.getMovieDetails(id)) {
-                is Resource.Success -> {
-                    val data = response.data
-                    MoviesUiState.Success(
-                        movie = data
-                    )
-                }
+            useCase.getMovieDetails(id).collect { response ->
+                val uiState = when (response) {
+                    is Resource.Success -> {
+                        val data = response.data
+                        MoviesUiState.Success(
+                            movie = data
+                        )
+                    }
 
-                is Resource.Error ->
-                    MoviesUiState.Failed(
-                        response.message ?: ""
-                    )
-            }
-            _uiState.update {
-                uiState
+                    is Resource.Error ->
+                        MoviesUiState.Failed(
+                            response.message ?: ""
+                        )
+                }
+                _uiState.update {
+                    uiState
+                }
             }
         }
     }

@@ -1,23 +1,23 @@
 package com.qamar.data.repository
 
-import android.util.Log
 import com.qamar.data.local.datasoruce.LocalMovieDataSource
-import com.qamar.data.remote.datasource.RemoteMovieDataSource
 import com.qamar.data.mapper.mapEntityToUiModel
-import com.qamar.data.mapper.mapToEntity
 import com.qamar.data.mapper.mapToModel
 import com.qamar.data.mapper.mapToUiModel
+import com.qamar.data.remote.datasource.RemoteMovieDataSource
 import com.qamar.domain.models.Movie
 import com.qamar.domain.models.MovieResponse
 import com.qamar.domain.repositories.MoviesRepository
 import com.qamar.domain.util.Resource
+import com.qamar.domain.util.handleSuccess
+import kotlinx.coroutines.flow.Flow
 
 class MovieRepositoryImpl(
     private val remoteDataSource: RemoteMovieDataSource,
     private val localDataSource: LocalMovieDataSource
 ) : MoviesRepository {
 
-    override suspend fun getMovies(page: Int): Resource<MovieResponse> {
+    override suspend fun getMovies(page: Int): Flow<Resource<MovieResponse>> {
 
         // Clear local data when fetching the first page
         if (page == 1) {
@@ -31,7 +31,7 @@ class MovieRepositoryImpl(
             localDataSource.saveMovies(it)
         }
         val localMovies = localDataSource.getMovies().mapToModel()
-        return Resource.Success(
+        return handleSuccess(
             MovieResponse(
                 totalPages = movieResponses.data?.totalPages ?: 0,
                 movies = localMovies
@@ -39,14 +39,14 @@ class MovieRepositoryImpl(
         )
     }
 
-    override suspend fun getMovieDetails(id: Int): Resource<Movie> {
+    override suspend fun getMovieDetails(id: Int): Flow<Resource<Movie>> {
         val movie = localDataSource.getMovieDetails(id)
         return if (movie != null) {
-            Resource.Success(movie.mapEntityToUiModel())
+            handleSuccess(movie.mapEntityToUiModel())
         } else {
             val movieResponses = remoteDataSource.getMovieDetails(id)
             val movies = movieResponses.data
-            Resource.Success(movies)
+            handleSuccess(movies)
         }
     }
 }
