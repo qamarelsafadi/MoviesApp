@@ -12,7 +12,6 @@ class LocalMovieDataSourceImpl(private val movieDao: MoviesDao) : LocalMovieData
 
     override suspend fun getMovies(): List<MovieEntity> = movieDao.getMovies()
 
-
     override suspend fun getMovieDetails(id: Int) = movieDao.getMovie(id)
 
     override suspend fun clearMovies() {

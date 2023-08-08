@@ -7,6 +7,5 @@ interface LocalMovieDataSource {
     suspend fun saveMovies(movies: Movie)
     suspend fun getMovies(): List<MovieEntity>
     suspend fun getMovieDetails(id: Int): MovieEntity?
-
     suspend fun clearMovies()
 }
