@@ -10,12 +10,3 @@ fun <E> handleSuccess(data: E?, message: String? = ""): MutableStateFlow<Resourc
         )
     )
 }
-
-fun <E> handleExceptions(errorBase: Exception): MutableStateFlow<Resource<E>> {
-    return MutableStateFlow(
-        Resource.Error(
-            message = errorBase.message ?: "",
-            null
-        )
-    )
-}

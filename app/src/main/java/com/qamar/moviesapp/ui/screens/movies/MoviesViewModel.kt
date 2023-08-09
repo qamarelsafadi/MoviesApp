@@ -33,7 +33,6 @@ class MoviesViewModel @Inject constructor(
     /**
      * Fetching Data
      */
-
     fun getMovies() {
         viewModelScope.launch {
             useCase.getMovies(
@@ -49,7 +48,6 @@ class MoviesViewModel @Inject constructor(
                             movies = response.data?.movies?.toImmutableList()
                         )
                     }
-
                     is Resource.Error ->
                         MoviesUiState.Failed(
                             response.message ?: ""
