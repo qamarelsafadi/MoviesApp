@@ -18,11 +18,6 @@ class MovieRepositoryImpl(
 ) : MoviesRepository {
 
     override suspend fun getMovies(page: Int): Flow<Resource<MovieResponse>> {
-
-        // Clear local data when fetching the first page
-        if (page == 1) {
-            localDataSource.clearMovies()
-        }
         val movieResponses = remoteDataSource.getMovies(page)
         val movies = movieResponses.data?.movies?.map {
             it.mapToUiModel()
