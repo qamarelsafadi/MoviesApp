@@ -1,6 +1,7 @@
 package com.qamar.data.remote.datasource
 
-import com.qamar.data.mapper.mapToUiModel
+import com.qamar.data.mapper.mapToEntity
+import com.qamar.data.mapper.mapToModel
 import com.qamar.data.remote.model.MovieResponse
 import com.qamar.data.remote.service.MoviesApiService
 import com.qamar.domain.models.Movie
@@ -27,7 +28,7 @@ class RemoteMovieDataSourceImpl(
         return try {
             val response = moviesApiService.getMovieDetails(id)
             if (response.isSuccessful) {
-                Resource.Success(response.body()?.mapToUiModel())
+                Resource.Success(response.body()?.mapToModel())
             } else {
                 Resource.Error(response.message())
             }

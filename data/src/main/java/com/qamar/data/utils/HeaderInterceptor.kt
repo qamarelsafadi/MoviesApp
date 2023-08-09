@@ -1,15 +1,10 @@
-package com.qamar.moviesapp.util
+package com.qamar.data.utils
 
-import android.content.Context
 import com.qamar.data.BuildConfig
-import dagger.hilt.android.qualifiers.ApplicationContext
 import okhttp3.Interceptor
 import okhttp3.Response
-import javax.inject.Inject
 
-class HeaderInterceptor @Inject constructor(
-    @ApplicationContext private val context: Context
-) : Interceptor {
+class HeaderInterceptor : Interceptor {
 
     override fun intercept(chain: Interceptor.Chain): Response {
         var request = chain.request()
@@ -25,6 +20,5 @@ class HeaderInterceptor @Inject constructor(
             e.printStackTrace()
         }
         return chain.proceed(request)
-
     }
 }

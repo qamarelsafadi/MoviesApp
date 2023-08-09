@@ -2,7 +2,7 @@ package com.qamar.moviesapp.di
 
 import com.qamar.data.remote.service.MoviesApiService
 import com.qamar.moviesapp.BuildConfig
-import com.qamar.moviesapp.util.HeaderInterceptor
+import com.qamar.data.utils.HeaderInterceptor
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -20,12 +20,11 @@ object NetworkModule {
     @Provides
     @Singleton
     fun provideOkHttp(
-        headerInterceptor: HeaderInterceptor
     ): OkHttpClient {
         return OkHttpClient.Builder()
             .connectTimeout(20, TimeUnit.SECONDS)
             .readTimeout(20, TimeUnit.SECONDS)
-            .addInterceptor(headerInterceptor)
+            .addInterceptor(HeaderInterceptor())
             .build()
     }
 
