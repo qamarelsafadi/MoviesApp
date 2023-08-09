@@ -13,6 +13,7 @@ import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
@@ -23,6 +24,7 @@ import com.qamar.moviesapp.ui.screens.movies.list.item.MovieCard
 import com.qamar.moviesapp.ui.screens.movies.state.MoviesUiState
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.persistentListOf
+import kotlinx.collections.immutable.toImmutableList
 
 @Composable
 fun MoviesScreen(
@@ -96,3 +98,13 @@ fun HomeContent(
     }
 }
 
+
+@Preview
+@Composable
+private fun HomeContentPreview() {
+    HomeContent(
+        state = rememberLazyListState(),
+        movies = Movie.previewData.toImmutableList()
+    ) {
+    }
+}
